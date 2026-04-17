@@ -4,12 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#b97819">
+    <title>{{#if page_title}}{{ page_title }}{{else}}Blind Box Atelier{{/if}}</title>
+    {{#if page_description}}
+      <meta name="description" content="{{ page_description }}">
+    {{/if}}
     <style>
       :root {
-        --blind-box-page-background: #f5efe6;
-        --blind-box-page-text: #17202a;
+        --blind-box-page-background: {{#if settings.color_page_background}}{{ settings.color_page_background }}{{else}}#f5efe6{{/if}};
+        --blind-box-page-text: {{#if settings.color_text}}{{ settings.color_text }}{{else}}#17202a{{/if}};
         --blind-box-page-muted: #5d6877;
-        --blind-box-page-accent: #b97819;
+        --blind-box-page-accent: {{#if settings.color_accent}}{{ settings.color_accent }}{{else}}#b97819{{/if}};
         --blind-box-page-card: rgba(255, 255, 255, 0.84);
         --blind-box-page-border: rgba(23, 32, 42, 0.08);
         --blind-box-page-shadow: 0 28px 64px rgba(23, 32, 42, 0.08);
@@ -30,7 +34,7 @@
           radial-gradient(circle at top, rgba(255, 255, 255, 0.72), transparent 34%),
           linear-gradient(180deg, #f9f5ef 0%, var(--blind-box-page-background) 100%);
         color: var(--blind-box-page-text);
-        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
       }
 
       a {
@@ -40,20 +44,32 @@
     {{#content "header" /}}
     <link href="{{`theme.css` | asset_url()}}" rel="stylesheet">
     <link href="{{`blind-box-product-shell.css` | asset_url()}}" rel="stylesheet">
+    <script src="{{`blind-box-theme-core.js` | asset_url()}}" defer></script>
+    <script>
+      window.routes = {
+        cart_change_url: "{{ routes.cart_change_url }}",
+        search_url: "{{ routes.search_url }}"
+      };
+    </script>
   </head>
   <body class="layout-{{ layout.name }}">
     <div class="store-shell">
       <div class="store-shell__announcement">
-        Fresh drops, sealed picks, and surprise reveals.
+        Blind boxes stay clear, native, and fast to buy.
       </div>
       <header class="store-shell__header">
         <a class="store-shell__brand" href="/">
-          <img class="store-shell__brand-mark" src="{{`logo.png` | asset_url()}}" alt="Blind Box Atelier">
-          <span>Blind Box Atelier</span>
+          <img
+            class="store-shell__brand-mark"
+            src="{{`logo.png` | asset_url()}}"
+            alt="{{#if shop.name}}{{ shop.name }}{{else}}Blind Box Atelier{{/if}}"
+          >
+          <span>{{#if shop.name}}{{ shop.name }}{{else}}Blind Box Atelier{{/if}}</span>
         </a>
         <nav class="store-shell__nav" aria-label="Primary">
           <a href="/">Home</a>
           <a href="/collections/all">Catalog</a>
+          <a href="/collections-all">Collections</a>
           <a href="/search">Search</a>
           <a href="/cart">Cart</a>
         </nav>
@@ -64,16 +80,18 @@
       </main>
       <footer class="store-shell__footer">
         <div>
-          <strong>Blind Box Atelier</strong>
-          <p>Retail-style storefront shell for curated mystery drops and collector launches.</p>
+          <strong>{{#if shop.name}}{{ shop.name }}{{else}}Blind Box Atelier{{/if}}</strong>
+          <p>Collector-focused storefront shell for clear product storytelling, trust-first blind-box UX, and native SHOPLINE checkout.</p>
         </div>
         <div class="store-shell__footer-links">
           <a href="/collections/all">Catalog</a>
+          <a href="/collections-all">Collections</a>
           <a href="/search">Search</a>
           <a href="/cart">Cart</a>
         </div>
       </footer>
     </div>
+    <script src="{{`theme-interactions.js` | asset_url()}}" defer></script>
     {{#content "footer" /}}
   </body>
 </html>
