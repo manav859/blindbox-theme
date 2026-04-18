@@ -27,7 +27,7 @@
             {{#if collection_item.image}}
               <img
                 class="theme-page__card-image"
-                src="{{ image_url collection_item.image width=900 height=560 }}"
+                src="{{ collection_item.image | image_url(width=900, height=560) }}"
                 alt="{{ collection_item.title }}"
               >
             {{else}}

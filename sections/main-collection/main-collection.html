@@ -24,7 +24,7 @@
 
     <div class="theme-page__panel collection-page__hero-media">
       {{#if collection.image}}
-        <img src="{{ image_url collection.image width=1400 }}" alt="{{ collection.title }}">
+        <img src="{{ collection.image | image_url(width=1400) }}" alt="{{ collection.title }}">
       {{else}}
         <img src="{{`sheep.jpg` | asset_url()}}" alt="{{ collection.title }}">
       {{/if}}
@@ -63,7 +63,7 @@
               {{#if product_item.featured_image}}
                 <img
                   class="theme-page__card-image"
-                  src="{{ image_url product_item.featured_image width=720 height=720 }}"
+                  src="{{ product_item.featured_image | image_url(width=720, height=720) }}"
                   alt="{{ product_item.title }}"
                 >
               {{/if}}

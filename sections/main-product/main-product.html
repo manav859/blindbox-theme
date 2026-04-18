@@ -30,7 +30,7 @@
               {{#if media.media_type == "image"}}
                 <img
                   class="main-product-page__media-image"
-                  src="{{ image_url media width=1200 }}"
+                  src="{{ media | image_url(width=1200) }}"
                   alt="{{ product.title }}"
                   loading="eager"
                 >
@@ -38,7 +38,7 @@
                 {{#if media.preview_image}}
                   <img
                     class="main-product-page__media-image"
-                    src="{{ image_url media.preview_image width=1200 }}"
+                    src="{{ media.preview_image | image_url(width=1200) }}"
                     alt="{{ product.title }}"
                     loading="eager"
                   >
@@ -56,7 +56,7 @@
             <div class="main-product-page__media-item" data-product-media-id="featured-default">
               <img
                 class="main-product-page__media-image"
-                src="{{ image_url product.featured_image width=1200 }}"
+                src="{{ product.featured_image | image_url(width=1200) }}"
                 alt="{{ product.title }}"
                 loading="eager"
               >
@@ -82,7 +82,7 @@
               {{#if media.preview_image}}
                 <img
                   class="main-product-page__thumbnail-image"
-                  src="{{ image_url media.preview_image width=320 height=320 }}"
+                  src="{{ media.preview_image | image_url(width=320, height=320) }}"
                   alt="{{ product.title }}"
                 >
               {{else}}
