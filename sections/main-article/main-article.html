@@ -26,7 +26,7 @@
 
     {{#if article.image}}
       <div class="theme-page__panel collection-page__hero-media">
-        <img src="{{ image_url article.image width=1400 }}" alt="{{ article.title }}">
+        <img src="{{ article.image | image_url(width=1400) }}" alt="{{ article.title }}">
       </div>
     {{else}}
       <aside class="theme-page__sidebar">

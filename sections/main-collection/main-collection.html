@@ -48,7 +48,7 @@
 
     <div class="theme-page__panel catalog-page__hero-media">
       {{#if collection.image}}
-        <img src="{{ image_url collection.image width=1600 height=1100 }}" alt="{{ collection.title }}">
+        <img src="{{ collection.image | image_url(width=1600, height=1100) }}" alt="{{ collection.title }}">
       {{else}}
         <div class="catalog-page__hero-placeholder">
           <span>Live collection</span>
