@@ -20,9 +20,9 @@
   </div>
 
   {{#if cart.items.length > 0}}
-    {{#form "cart" class="cart-page__layout"}}
+    <form class="cart-page__layout" method="post" action="{{ routes.cart_url }}">
       <div class="theme-page__list">
-        {{#for cart.items as |item|}}
+        {{#each cart.items as |item|}}
           <article
             class="theme-page__cart-line"
             data-cart-line
@@ -72,7 +72,7 @@
               </div>
             </div>
           </article>
-        {{/for}}
+        {{/each}}
       </div>
 
       <aside class="theme-page__sidebar">
@@ -89,7 +89,7 @@
           <a class="theme-page__link-button" href="/collections/all">Add more items</a>
         </div>
       </aside>
-    {{/form}}
+    </form>
   {{else}}
     <div class="theme-page__empty">
       <h3>Your cart is empty.</h3>

@@ -26,7 +26,7 @@
 
     {{#if article.image}}
       <div class="theme-page__panel collection-page__hero-media">
-        {{ image_tag (image_url article.image width=1400) alt=article.title }}
+        <img src="{{ image_url article.image width=1400 }}" alt="{{ article.title }}">
       </div>
     {{else}}
       <aside class="theme-page__sidebar">
@@ -62,12 +62,12 @@
           <span class="theme-page__kicker">Comments</span>
           {{#if article.comments.length > 0}}
             <div class="theme-page__list">
-              {{#for article.comments as |comment|}}
+              {{#each article.comments as |comment|}}
                 <div class="theme-page__card">
                   <strong>{{ comment.author }}</strong>
                   <p class="theme-page__body">{{ comment.content }}</p>
                 </div>
-              {{/for}}
+              {{/each}}
             </div>
           {{else}}
             <p class="theme-page__body">No comments yet.</p>
@@ -77,7 +77,7 @@
 
       <aside class="theme-page__panel">
         <span class="theme-page__kicker">Leave a comment</span>
-        {{#form "new_comment" article class="theme-page__form"}}
+        <form class="theme-page__form" method="post" action="{{ article.url }}">
           <div class="theme-page__field">
             <label class="theme-page__label" for="CommentAuthor">Name</label>
             <input class="theme-page__input" id="CommentAuthor" type="text" name="comment[author]">
@@ -91,7 +91,7 @@
             <textarea class="theme-page__textarea" id="CommentBody" name="comment[body]"></textarea>
           </div>
           <button class="theme-page__button" type="submit">Post comment</button>
-        {{/form}}
+        </form>
       </aside>
     </div>
   {{/if}}

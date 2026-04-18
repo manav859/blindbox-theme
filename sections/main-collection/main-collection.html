@@ -24,7 +24,7 @@
 
     <div class="theme-page__panel collection-page__hero-media">
       {{#if collection.image}}
-        {{ image_tag (image_url collection.image width=1400) alt=collection.title }}
+        <img src="{{ image_url collection.image width=1400 }}" alt="{{ collection.title }}">
       {{else}}
         <img src="{{`sheep.jpg` | asset_url()}}" alt="{{ collection.title }}">
       {{/if}}
@@ -36,20 +36,19 @@
       <div class="theme-page__field">
         <label class="theme-page__label" for="CollectionSort">Sort</label>
         <select class="theme-page__select" id="CollectionSort" data-sort-by-select>
-          {{#for collection.sort_options as |sort_option|}}
+          {{#each collection.sort_options as |sort_option|}}
             <option value="{{ sort_option.value }}" {{#if sort_option.value == collection.sort_by}}selected{{/if}}>
               {{ sort_option.name }}
             </option>
-          {{/for}}
+          {{/each}}
         </select>
       </div>
     {{/if}}
   </div>
 
-  {{#paginate collection.products by=12}}
-    {{#if collection.products.length > 0}}
+  {{#if collection.products.length > 0}}
       <div class="theme-page__product-grid">
-        {{#for collection.products as |product_item|}}
+        {{#each collection.products as |product_item|}}
           <article
             class="theme-page__product-card"
             data-blind-box-card
@@ -62,7 +61,11 @@
               </div>
 
               {{#if product_item.featured_image}}
-                {{ image_tag (image_url product_item.featured_image width=720 height=720) class="theme-page__card-image" alt=product_item.title }}
+                <img
+                  class="theme-page__card-image"
+                  src="{{ image_url product_item.featured_image width=720 height=720 }}"
+                  alt="{{ product_item.title }}"
+                >
               {{/if}}
             </a>
 
@@ -85,27 +88,14 @@
               </p>
             </div>
           </article>
-        {{/for}}
+        {{/each}}
       </div>
-    {{else}}
+  {{else}}
       <div class="theme-page__empty">
         <h3>No products in this collection yet.</h3>
         <p>Add products in admin and this collection template will render them automatically.</p>
       </div>
-    {{/if}}
-
-    {{#if paginate.pages > 1}}
-      <div class="theme-page__pagination">
-        {{#if paginate.previous}}
-          <a href="{{ paginate.previous.url }}">Prev</a>
-        {{/if}}
-        <span aria-current="page">{{ paginate.current_page }}</span>
-        {{#if paginate.next}}
-          <a href="{{ paginate.next.url }}">Next</a>
-        {{/if}}
-      </div>
-    {{/if}}
-  {{/paginate}}
+  {{/if}}
 </section>
 
 {{#schema}}

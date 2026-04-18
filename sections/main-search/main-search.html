@@ -42,19 +42,26 @@
   </div>
 
   {{#if search.terms}}
-    {{#paginate search.results by=12}}
       {{#if search.results.length > 0}}
         <div class="search-page__result-grid">
-          {{#for search.results as |search_item|}}
+          {{#each search.results as |search_item|}}
             <article class="theme-page__result">
               {{#if search_item.featured_image}}
                 <a class="theme-page__collection-media" href="{{ search_item.url }}">
-                  {{ image_tag (image_url search_item.featured_image width=900 height=560) class="theme-page__result-image" alt=search_item.title }}
+                  <img
+                    class="theme-page__result-image"
+                    src="{{ image_url search_item.featured_image width=900 height=560 }}"
+                    alt="{{ search_item.title }}"
+                  >
                 </a>
               {{else}}
                 {{#if search_item.image}}
                   <a class="theme-page__collection-media" href="{{ search_item.url }}">
-                    {{ image_tag (image_url search_item.image width=900 height=560) class="theme-page__result-image" alt=search_item.title }}
+                    <img
+                      class="theme-page__result-image"
+                      src="{{ image_url search_item.image width=900 height=560 }}"
+                      alt="{{ search_item.title }}"
+                    >
                   </a>
                 {{/if}}
               {{/if}}
@@ -65,7 +72,7 @@
                   <span class="theme-page__meta">Result</span>
                 {{/if}}
                 <h3 class="theme-page__result-title">
-                  <a class="theme-page__subtle-link" href="{{ search_item.url }}">{{{ highlight search_item.title search.terms }}}</a>
+                  <a class="theme-page__subtle-link" href="{{ search_item.url }}">{{ search_item.title }}</a>
                 </h3>
                 {{#if search_item.price}}
                   <p class="theme-page__price">{{ search_item.price | money() }}</p>
@@ -79,7 +86,7 @@
                 </p>
               </div>
             </article>
-          {{/for}}
+          {{/each}}
         </div>
       {{else}}
         <div class="theme-page__empty">
@@ -87,19 +94,6 @@
           <p>Try another keyword, browse all products, or open the collections landing page.</p>
         </div>
       {{/if}}
-
-      {{#if paginate.pages > 1}}
-        <div class="theme-page__pagination">
-          {{#if paginate.previous}}
-            <a href="{{ paginate.previous.url }}">Prev</a>
-          {{/if}}
-          <span aria-current="page">{{ paginate.current_page }}</span>
-          {{#if paginate.next}}
-            <a href="{{ paginate.next.url }}">Next</a>
-          {{/if}}
-        </div>
-      {{/if}}
-    {{/paginate}}
   {{else}}
     <div class="theme-page__empty">
       <h3>Start with a keyword.</h3>

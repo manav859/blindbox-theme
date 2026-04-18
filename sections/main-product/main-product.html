@@ -21,23 +21,45 @@
     <div class="main-product-page__media-column">
       <div class="main-product-page__media-stage">
         {{#if product.media.length > 0}}
-          {{#for product.media as |media|}}
+          {{#each product.media as |media|}}
             <div
               class="main-product-page__media-item"
               data-product-media-id="{{ media.id }}"
               {{#if media.id != product.featured_media.id}}hidden{{/if}}
             >
               {{#if media.media_type == "image"}}
-                {{ image_tag (image_url media width=1200) class="main-product-page__media-image" alt=product.title loading="eager" }}
+                <img
+                  class="main-product-page__media-image"
+                  src="{{ image_url media width=1200 }}"
+                  alt="{{ product.title }}"
+                  loading="eager"
+                >
               {{else}}
-                {{ media_tag media class="main-product-page__media-image" }}
+                {{#if media.preview_image}}
+                  <img
+                    class="main-product-page__media-image"
+                    src="{{ image_url media.preview_image width=1200 }}"
+                    alt="{{ product.title }}"
+                    loading="eager"
+                  >
+                {{else}}
+                  <div class="main-product-page__media-fallback">
+                    <span>Product media</span>
+                    <strong>This media type uses its preview image in the uploaded theme package.</strong>
+                  </div>
+                {{/if}}
               {{/if}}
             </div>
-          {{/for}}
+          {{/each}}
         {{else}}
           {{#if product.featured_image}}
             <div class="main-product-page__media-item" data-product-media-id="featured-default">
-              {{ image_tag (image_url product.featured_image width=1200) class="main-product-page__media-image" alt=product.title loading="eager" }}
+              <img
+                class="main-product-page__media-image"
+                src="{{ image_url product.featured_image width=1200 }}"
+                alt="{{ product.title }}"
+                loading="eager"
+              >
             </div>
           {{else}}
             <div class="main-product-page__media-fallback">
@@ -50,7 +72,7 @@
 
       {{#if product.media.length > 1}}
         <div class="main-product-page__thumbnail-row">
-          {{#for product.media as |media|}}
+          {{#each product.media as |media|}}
             <button
               class="main-product-page__thumbnail"
               type="button"
@@ -58,12 +80,16 @@
               data-active="{{#if media.id == product.featured_media.id}}true{{else}}false{{/if}}"
             >
               {{#if media.preview_image}}
-                {{ image_tag (image_url media.preview_image width=320 height=320) class="main-product-page__thumbnail-image" alt=product.title }}
+                <img
+                  class="main-product-page__thumbnail-image"
+                  src="{{ image_url media.preview_image width=320 height=320 }}"
+                  alt="{{ product.title }}"
+                >
               {{else}}
                 <span>{{ media.alt }}</span>
               {{/if}}
             </button>
-          {{/for}}
+          {{/each}}
         </div>
       {{/if}}
 
@@ -167,14 +193,20 @@
           </p>
         </div>
 
-        {{#form "product" product id="MainProductForm" class="main-product-page__native-form" data-product-native-form="true"}}
+        <form
+          id="MainProductForm"
+          class="main-product-page__native-form"
+          method="post"
+          action="{{ routes.cart_add_url }}"
+          data-product-native-form="true"
+        >
           {{#if product.variants.length > 1}}
             <div class="main-product-page__field">
               <label class="main-product-page__label" for="ProductVariant-{{ section.id }}">
                 Edition
               </label>
               <select class="main-product-page__select" id="ProductVariant-{{ section.id }}" name="id" data-product-variant-select>
-                {{#for product.variants as |variant|}}
+                {{#each product.variants as |variant|}}
                   <option
                     value="{{ variant.id }}"
                     data-available="{{#if variant.available}}true{{else}}false{{/if}}"
@@ -182,9 +214,9 @@
                     data-media-id="{{#if variant.featured_media}}{{ variant.featured_media.id }}{{else}}{{#if product.featured_media}}{{ product.featured_media.id }}{{else}}featured-default{{/if}}{{/if}}"
                     {{#if variant.id == product.selected_or_first_available_variant.id}}selected{{/if}}
                   >
-                    {{ variant.title }} - {{ variant.price | money() }}{{#unless variant.available}} - Sold out{{/unless}}
+                    {{ variant.title }} - {{ variant.price | money() }}{{#if variant.available}}{{else}} - Sold out{{/if}}
                   </option>
-                {{/for}}
+                {{/each}}
               </select>
             </div>
           {{else}}
@@ -237,7 +269,7 @@
               Keep browsing
             </a>
           </div>
-        {{/form}}
+        </form>
 
         <div class="main-product-page__trust-strip">
           <div class="main-product-page__trust-strip-item">

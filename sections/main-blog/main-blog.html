@@ -25,14 +25,17 @@
     </aside>
   </div>
 
-  {{#paginate blog.articles by=9}}
-    {{#if blog.articles.length > 0}}
+  {{#if blog.articles.length > 0}}
       <div class="blog-page__article-grid">
-        {{#for blog.articles as |article_item|}}
+        {{#each blog.articles as |article_item|}}
           <article class="theme-page__article-card">
             {{#if article_item.image}}
               <a class="theme-page__article-media" href="{{ article_item.url }}">
-                {{ image_tag (image_url article_item.image width=1200 height=750) class="theme-page__card-image" alt=article_item.title }}
+                <img
+                  class="theme-page__card-image"
+                  src="{{ image_url article_item.image width=1200 height=750 }}"
+                  alt="{{ article_item.title }}"
+                >
               </a>
             {{/if}}
             <div class="theme-page__grid">
@@ -47,27 +50,14 @@
               </p>
             </div>
           </article>
-        {{/for}}
+        {{/each}}
       </div>
-    {{else}}
+  {{else}}
       <div class="theme-page__empty">
         <h3>No blog posts published yet.</h3>
         <p>Create articles in SHOPLINE admin and this template will render them automatically.</p>
       </div>
-    {{/if}}
-
-    {{#if paginate.pages > 1}}
-      <div class="theme-page__pagination">
-        {{#if paginate.previous}}
-          <a href="{{ paginate.previous.url }}">Prev</a>
-        {{/if}}
-        <span aria-current="page">{{ paginate.current_page }}</span>
-        {{#if paginate.next}}
-          <a href="{{ paginate.next.url }}">Next</a>
-        {{/if}}
-      </div>
-    {{/if}}
-  {{/paginate}}
+  {{/if}}
 </section>
 
 {{#schema}}

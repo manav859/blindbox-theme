@@ -21,11 +21,15 @@
 
   {{#if collections.length > 0}}
     <div class="collections-page__grid">
-      {{#for collections as |collection_item|}}
+      {{#each collections as |collection_item|}}
         <article class="theme-page__collection-card">
           <a class="theme-page__collection-media" href="{{ collection_item.url }}">
             {{#if collection_item.image}}
-              {{ image_tag (image_url collection_item.image width=900 height=560) class="theme-page__card-image" alt=collection_item.title }}
+              <img
+                class="theme-page__card-image"
+                src="{{ image_url collection_item.image width=900 height=560 }}"
+                alt="{{ collection_item.title }}"
+              >
             {{else}}
               <img class="theme-page__card-image" src="{{`sheep.jpg` | asset_url()}}" alt="{{ collection_item.title }}">
             {{/if}}
@@ -42,7 +46,7 @@
             </p>
           </div>
         </article>
-      {{/for}}
+      {{/each}}
     </div>
   {{else}}
     <div class="theme-page__empty">
