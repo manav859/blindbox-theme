@@ -3,7 +3,7 @@
   data-product-section
   data-product-tags="{{ product.tags }}"
   data-initial-variant-available="{{#if product.selected_or_first_available_variant.available}}true{{else}}false{{/if}}"
-  data-initial-product-price="{{ product.selected_or_first_available_variant.price | money() }}"
+  data-initial-product-price="{{ money product.selected_or_first_available_variant.price }}"
   data-initial-media-id="{{#if product.selected_or_first_available_variant.featured_media}}{{ product.selected_or_first_available_variant.featured_media.id }}{{else}}{{#if product.featured_media}}{{ product.featured_media.id }}{{else}}featured-default{{/if}}{{/if}}"
   data-standard-add-label="{{#if section.settings.standard_button_label}}{{ section.settings.standard_button_label }}{{else}}Add to cart{{/if}}"
   data-blind-box-add-label="{{#if section.settings.blind_box_button_label}}{{ section.settings.blind_box_button_label }}{{else}}Add Blind Box to Cart{{/if}}"
@@ -22,7 +22,7 @@
               {{#if media.media_type == "image"}}
                 <img
                   class="theme-page__card-image"
-                  src="{{ media | image_url(width=1400, height=1400) }}"
+                  src="{{ image_url media width=1400 height=1400 }}"
                   alt="{{ product.title }}"
                   loading="eager"
                 >
@@ -30,7 +30,7 @@
                 {{#if media.preview_image}}
                   <img
                     class="theme-page__card-image"
-                    src="{{ media.preview_image | image_url(width=1400, height=1400) }}"
+                    src="{{ image_url media.preview_image width=1400 height=1400 }}"
                     alt="{{ product.title }}"
                     loading="eager"
                   >
@@ -48,7 +48,7 @@
             <div class="theme-product__media-item" data-product-media-id="featured-default">
               <img
                 class="theme-page__card-image"
-                src="{{ product.featured_image | image_url(width=1400, height=1400) }}"
+                src="{{ image_url product.featured_image width=1400 height=1400 }}"
                 alt="{{ product.title }}"
                 loading="eager"
               >
@@ -74,7 +74,7 @@
               {{#if media.preview_image}}
                 <img
                   class="main-product-page__thumbnail-image"
-                  src="{{ media.preview_image | image_url(width=320, height=320) }}"
+                  src="{{ image_url media.preview_image width=320 height=320 }}"
                   alt="{{ product.title }}"
                 >
               {{else}}
@@ -96,11 +96,11 @@
 
         <div class="main-product-page__price-stack">
           <strong class="theme-page__price" data-product-price-display>
-            {{ product.selected_or_first_available_variant.price | money() }}
+            {{ money product.selected_or_first_available_variant.price }}
           </strong>
           {{#if product.selected_or_first_available_variant.compare_at_price}}
             <span class="main-product-page__compare-price">
-              {{ product.selected_or_first_available_variant.compare_at_price | money() }}
+              {{ money product.selected_or_first_available_variant.compare_at_price }}
             </span>
           {{/if}}
         </div>
@@ -111,13 +111,13 @@
         </div>
       </div>
 
-      {{#form
-        "product"
-        product
+      <form
         id="MainProductForm"
         class="theme-page__form theme-product__form"
+        method="post"
+        action="{{ routes.cart_add_url }}"
         data-product-native-form="true"
-      }}
+      >
         {{#if product.variants.length > 1}}
           <div class="theme-page__field">
             <label class="theme-page__label" for="ProductVariant-{{ section.id }}">
@@ -133,11 +133,11 @@
                 <option
                   value="{{ variant.id }}"
                   data-available="{{#if variant.available}}true{{else}}false{{/if}}"
-                  data-price="{{ variant.price | money() }}"
+                  data-price="{{ money variant.price }}"
                   data-media-id="{{#if variant.featured_media}}{{ variant.featured_media.id }}{{else}}{{#if product.featured_media}}{{ product.featured_media.id }}{{else}}featured-default{{/if}}{{/if}}"
                   {{#if variant.id == product.selected_or_first_available_variant.id}}selected{{/if}}
                 >
-                  {{ variant.title }} - {{ variant.price | money() }}{{#if variant.available}}{{else}} - Sold out{{/if}}
+                  {{ variant.title }} - {{ money variant.price }}{{#if variant.available}}{{else}} - Sold out{{/if}}
                 </option>
               {{/each}}
             </select>
@@ -206,7 +206,7 @@
           </button>
           <a class="theme-page__link-button" href="/collections/all">Back to catalog</a>
         </div>
-      {{/form}}
+      </form>
 
       <div class="theme-page__body theme-product__description">
         {{#if product.description}}

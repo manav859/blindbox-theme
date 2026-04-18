@@ -50,7 +50,7 @@
                 <a class="theme-page__collection-media" href="{{ search_item.url }}">
                   <img
                     class="theme-page__result-image"
-                    src="{{ search_item.featured_image | image_url(width=900, height=560) }}"
+                    src="{{ image_url search_item.featured_image width=900 height=560 }}"
                     alt="{{ search_item.title }}"
                   >
                 </a>
@@ -59,7 +59,7 @@
                   <a class="theme-page__collection-media" href="{{ search_item.url }}">
                     <img
                       class="theme-page__result-image"
-                      src="{{ search_item.image | image_url(width=900, height=560) }}"
+                      src="{{ image_url search_item.image width=900 height=560 }}"
                       alt="{{ search_item.title }}"
                     >
                   </a>
@@ -75,7 +75,7 @@
                   <a class="theme-page__subtle-link" href="{{ search_item.url }}">{{ search_item.title }}</a>
                 </h3>
                 {{#if search_item.price}}
-                  <p class="theme-page__price">{{ search_item.price | money() }}</p>
+                  <p class="theme-page__price">{{ money search_item.price }}</p>
                 {{/if}}
                 <p class="theme-page__result-copy">
                   {{#if search_item.description}}

@@ -64,7 +64,7 @@
                     >
                     <button type="button" data-cart-quantity-trigger data-direction="increase">+</button>
                   </div>
-                  <span class="theme-page__price">{{ item.final_line_price | money() }}</span>
+                  <span class="theme-page__price">{{ money item.final_line_price }}</span>
                   {{#if item.url_to_remove}}
                     <a class="theme-page__subtle-link" href="{{ item.url_to_remove }}">Remove</a>
                   {{/if}}
@@ -78,7 +78,7 @@
       <aside class="theme-page__sidebar">
         <span class="theme-page__kicker">Summary</span>
         <h3>Ready for checkout</h3>
-        <p class="theme-page__price">{{ cart.total_price | money() }}</p>
+        <p class="theme-page__price">{{ money cart.total_price }}</p>
         <p class="theme-page__body">{{ cart.item_count }} item(s) currently in cart.</p>
         <div class="theme-page__field">
           <label class="theme-page__label" for="CartNote">Order note</label>

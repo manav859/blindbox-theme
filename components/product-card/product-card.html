@@ -8,7 +8,7 @@
     {{#if props.product.featured_image}}
       <img
         class="theme-page__card-image merch-card__image"
-        src="{{ props.product.featured_image | image_url(width=960, height=1200) }}"
+        src="{{ image_url props.product.featured_image width=960 height=1200 }}"
         alt="{{ props.product.title }}"
         loading="lazy"
       >
@@ -36,10 +36,10 @@
     </div>
 
     <div class="merch-card__pricing">
-      <strong class="theme-page__price">{{ props.product.price | money() }}</strong>
+      <strong class="theme-page__price">{{ money props.product.price }}</strong>
       {{#if props.product.selected_or_first_available_variant.compare_at_price}}
         <span class="merch-card__compare-price">
-          {{ props.product.selected_or_first_available_variant.compare_at_price | money() }}
+          {{ money props.product.selected_or_first_available_variant.compare_at_price }}
         </span>
       {{/if}}
     </div>

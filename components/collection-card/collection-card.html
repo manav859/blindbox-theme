@@ -3,7 +3,7 @@
     {{#if props.collection_item.image}}
       <img
         class="theme-page__card-image collection-tile__image"
-        src="{{ props.collection_item.image | image_url(width=1200, height=760) }}"
+        src="{{ image_url props.collection_item.image width=1200 height=760 }}"
         alt="{{ props.collection_item.title }}"
         loading="lazy"
       >

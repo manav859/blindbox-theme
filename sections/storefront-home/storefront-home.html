@@ -50,34 +50,30 @@
       <span class="theme-page__kicker">Live collection spotlight</span>
 
       {{#if collections.length > 0}}
-        {{#each collections as |collection_item|}}
-          {{#if @first}}
-            <a class="editorial-home__feature-media" href="{{ collection_item.url }}">
-              {{#if collection_item.image}}
-                <img
-                  src="{{ collection_item.image | image_url(width=1400, height=900) }}"
-                  alt="{{ collection_item.title }}"
-                >
-              {{else}}
-                <div class="editorial-home__feature-placeholder">
-                  <span>Collection spotlight</span>
-                  <strong>{{ collection_item.title }}</strong>
-                </div>
-              {{/if}}
-            </a>
-            <div class="editorial-home__feature-copy">
-              <h2>{{ collection_item.title }}</h2>
-              <p>
-                {{#if collection_item.description}}
-                  {{ collection_item.description }}
-                {{else}}
-                  Open this collection to browse its live products.
-                {{/if}}
-              </p>
-              <a class="editorial-home__inline-link" href="{{ collection_item.url }}">Open collection</a>
+        <a class="editorial-home__feature-media" href="{{ collections.[0].url }}">
+          {{#if collections.[0].image}}
+            <img
+              src="{{ image_url collections.[0].image width=1400 height=900 }}"
+              alt="{{ collections.[0].title }}"
+            >
+          {{else}}
+            <div class="editorial-home__feature-placeholder">
+              <span>Collection spotlight</span>
+              <strong>{{ collections.[0].title }}</strong>
             </div>
           {{/if}}
-        {{/each}}
+        </a>
+        <div class="editorial-home__feature-copy">
+          <h2>{{ collections.[0].title }}</h2>
+          <p>
+            {{#if collections.[0].description}}
+              {{ collections.[0].description }}
+            {{else}}
+              Open this collection to browse its live products.
+            {{/if}}
+          </p>
+          <a class="editorial-home__inline-link" href="{{ collections.[0].url }}">Open collection</a>
+        </div>
       {{else}}
         <div class="theme-page__empty">
           <h3>No collections are published yet.</h3>

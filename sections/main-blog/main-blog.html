@@ -33,7 +33,7 @@
               <a class="theme-page__article-media" href="{{ article_item.url }}">
                 <img
                   class="theme-page__card-image"
-                  src="{{ article_item.image | image_url(width=1200, height=750) }}"
+                  src="{{ image_url article_item.image width=1200 height=750 }}"
                   alt="{{ article_item.title }}"
                 >
               </a>

@@ -1,4 +1,4 @@
-{{#var primary_menu = linklists[section.settings.primary_menu] /}}
+{{ assign 'primary_menu' section.settings.primary_menu }}
 
 <header class="store-shell__site-header" data-site-header>
   {{#if section.settings.announcement}}
@@ -11,7 +11,7 @@
     <a class="store-shell__brand" href="/">
       <img
         class="store-shell__brand-mark"
-        src="{{`logo.png` | asset_url()}}"
+        src="{{ asset_url 'logo.png' }}"
         alt="{{#if shop.name}}{{ shop.name }}{{else}}Blind Box Atelier{{/if}}"
       >
       <span>{{#if shop.name}}{{ shop.name }}{{else}}Blind Box Atelier{{/if}}</span>
