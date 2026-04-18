@@ -1,7 +1,16 @@
-<section class="theme-page collection-page">
-  <div class="theme-page__hero">
-    <div class="theme-page__panel">
-      <span class="theme-page__eyebrow">Collection</span>
+{{#var paginate = collection | get_product_pagination(24) /}}
+
+<section class="theme-page collection-page catalog-page">
+  <div class="theme-page__hero catalog-page__hero">
+    <div class="theme-page__panel catalog-page__hero-copy">
+      <span class="theme-page__eyebrow">
+        {{#if collection.handle == "all"}}
+          Catalog
+        {{else}}
+          Collection
+        {{/if}}
+      </span>
+
       <h1 class="theme-page__title">
         {{#if collection.title}}
           {{ collection.title }}
@@ -9,100 +18,108 @@
           Store collection
         {{/if}}
       </h1>
+
       <p class="theme-page__lead">
         {{#if collection.description}}
           {{ collection.description }}
         {{else}}
-          Browse the collection with fast-loading product cards, clear pricing, and lightweight blind-box cues where needed.
+          Browse the live products in this collection. Sorting and pagination are backed by the real SHOPLINE collection data.
         {{/if}}
       </p>
+
+      <div class="catalog-page__stats theme-page__stat-grid">
+        <article class="theme-page__stat">
+          <strong>{{ collection.products_count }}</strong>
+          <span>published products</span>
+        </article>
+        <article class="theme-page__stat">
+          <strong>Live sorting</strong>
+          <span>sort options come directly from the active collection</span>
+        </article>
+        <article class="theme-page__stat">
+          <strong>Blind-box safe</strong>
+          <span>tag-based messaging stays conditional and intact</span>
+        </article>
+      </div>
+
       <div class="theme-page__actions">
         <a class="theme-page__button" href="/collections/all">All products</a>
-        <a class="theme-page__link-button" href="/search">Search store</a>
+        <a class="theme-page__link-button" href="/collections-all">All collections</a>
       </div>
     </div>
 
-    <div class="theme-page__panel collection-page__hero-media">
+    <div class="theme-page__panel catalog-page__hero-media">
       {{#if collection.image}}
-        <img src="{{ collection.image | image_url(width=1400) }}" alt="{{ collection.title }}">
+        <img src="{{ collection.image | image_url(width=1600, height=1100) }}" alt="{{ collection.title }}">
       {{else}}
-        <img src="{{`sheep.jpg` | asset_url()}}" alt="{{ collection.title }}">
+        <div class="catalog-page__hero-placeholder">
+          <span>Live collection</span>
+          <strong>{{ collection.title }}</strong>
+        </div>
       {{/if}}
     </div>
   </div>
 
-  <div class="theme-page__inline">
-    {{#if collection.sort_options}}
-      <div class="theme-page__field">
-        <label class="theme-page__label" for="CollectionSort">Sort</label>
-        <select class="theme-page__select" id="CollectionSort" data-sort-by-select>
-          {{#each collection.sort_options as |sort_option|}}
-            <option value="{{ sort_option.value }}" {{#if sort_option.value == collection.sort_by}}selected{{/if}}>
-              {{ sort_option.name }}
-            </option>
-          {{/each}}
-        </select>
+  <div class="catalog-page__toolbar theme-page__panel">
+    <div class="catalog-page__toolbar-copy">
+      <span class="theme-page__kicker">Browse the assortment</span>
+      <h2>Live product grid</h2>
+      <p>Every card below is rendered from the real collection listing, with pagination controlled by the live catalog.</p>
+    </div>
+
+    <div class="catalog-page__toolbar-actions">
+      {{#if collection.sort_options}}
+        <div class="theme-page__field catalog-page__sort">
+          <label class="theme-page__label" for="CollectionSort">Sort</label>
+          <select class="theme-page__select" id="CollectionSort" data-sort-by-select>
+            {{#each collection.sort_options as |sort_option|}}
+              <option value="{{ sort_option.value }}" {{#if sort_option.value == collection.sort_by}}selected{{/if}}>
+                {{ sort_option.name }}
+              </option>
+            {{/each}}
+          </select>
+        </div>
+      {{/if}}
+
+      <div class="catalog-page__result-count">
+        <strong>{{ collection.products_count }}</strong>
+        <span>products in this collection</span>
       </div>
-    {{/if}}
+    </div>
   </div>
 
-  {{#if collection.products.length > 0}}
-      <div class="theme-page__product-grid">
-        {{#each collection.products as |product_item|}}
-          <article
-            class="theme-page__product-card"
-            data-blind-box-card
-            data-blind-box-mode="pending"
-            data-product-tags="{{ product_item.tags }}"
-          >
-            <a class="theme-page__product-media" href="{{ product_item.url }}">
-              <div class="theme-page__product-badge-wrap">
-                {{#component "blind-box-badge/blind-box-badge" /}}
-              </div>
-
-              {{#if product_item.featured_image}}
-                <img
-                  class="theme-page__card-image"
-                  src="{{ product_item.featured_image | image_url(width=720, height=720) }}"
-                  alt="{{ product_item.title }}"
-                >
-              {{/if}}
-            </a>
-
-            <div class="theme-page__grid">
-              {{#if product_item.vendor}}
-                <span class="theme-page__meta">{{ product_item.vendor }}</span>
-              {{/if}}
-
-              <h3><a class="theme-page__subtle-link" href="{{ product_item.url }}">{{ product_item.title }}</a></h3>
-              <p class="theme-page__price">{{ product_item.price | money() }}</p>
-              <p class="theme-page__product-note theme-page__product-note--standard">
-                {{#if product_item.available}}
-                  Available now for checkout.
-                {{else}}
-                  Currently sold out.
-                {{/if}}
-              </p>
-              <p class="theme-page__product-note theme-page__product-note--blind">
-                Surprise item. Reward assigned after payment.
-              </p>
-            </div>
-          </article>
-        {{/each}}
-      </div>
-  {{else}}
+  <div class="theme-page__product-grid catalog-page__grid">
+    {{#for paginate.list as |product_item|}}
+      {{#component
+        "product-card/product-card"
+        product=product_item
+        meta_label=collection.title
+        badge_text=section.settings.badge_text
+        show_quick_add="true"
+      /}}
+    {{else}}
       <div class="theme-page__empty">
         <h3>No products in this collection yet.</h3>
-        <p>Add products in admin and this collection template will render them automatically.</p>
+        <p>Add or publish products in SHOPLINE admin and this collection template will render them automatically.</p>
       </div>
-  {{/if}}
+    {{/for}}
+  </div>
+
+  {{#component "pagination/pagination" paginate=paginate /}}
 </section>
 
 {{#schema}}
 {
   "name": "Main collection",
   "class": "theme-main-collection",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Blind box badge text",
+      "default": "Blind Box"
+    }
+  ],
   "presets": [
     {
       "name": "Main collection"
