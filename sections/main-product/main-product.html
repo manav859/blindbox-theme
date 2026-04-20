@@ -1,6 +1,8 @@
 <section
   class="theme-page theme-product"
   data-product-section
+  data-blind-box-product-page
+  data-product-id="{{ product.id }}"
   data-product-tags="{{ product.tags }}"
   data-initial-variant-available="{{#if product.selected_or_first_available_variant.available}}true{{else}}false{{/if}}"
   data-initial-product-price="{{ product.selected_or_first_available_variant.price | money() }}"
@@ -105,7 +107,7 @@
           {{/if}}
         </div>
 
-        <div class="theme-product__blind-box-note" data-blind-box-note>
+        <div class="theme-product__blind-box-note" data-blind-box-note hidden>
           <strong>Mystery product</strong>
           <p>This is a mystery product. You will receive a random item from the collection.</p>
         </div>
